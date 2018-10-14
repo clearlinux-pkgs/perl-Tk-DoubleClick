@@ -4,14 +4,14 @@
 #
 Name     : perl-Tk-DoubleClick
 Version  : 0.04
-Release  : 1
+Release  : 2
 URL      : https://cpan.metacpan.org/authors/id/D/DD/DDUMONT/Tk-DoubleClick-0.04.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/D/DD/DDUMONT/Tk-DoubleClick-0.04.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/libt/libtk-doubleclick-perl/libtk-doubleclick-perl_0.04-1.debian.tar.xz
 Summary  : 'Correctly handle single-click vs double-click events,'
 Group    : Development/Tools
 License  : Artistic-1.0-Perl
-Requires: perl-Tk-DoubleClick-man
+BuildRequires : buildreq-cpan
 BuildRequires : perl(Tk)
 
 %description
@@ -20,19 +20,20 @@ how to install the module, any machine dependencies it may have (for
 example C compilers and installed libraries) and any other information
 that should be provided before the module is installed.
 
-%package man
-Summary: man components for the perl-Tk-DoubleClick package.
-Group: Default
+%package dev
+Summary: dev components for the perl-Tk-DoubleClick package.
+Group: Development
+Provides: perl-Tk-DoubleClick-devel = %{version}-%{release}
 
-%description man
-man components for the perl-Tk-DoubleClick package.
+%description dev
+dev components for the perl-Tk-DoubleClick package.
 
 
 %prep
-tar -xf %{SOURCE1}
-cd ..
 %setup -q -n Tk-DoubleClick-0.04
-mkdir -p %{_topdir}/BUILD/Tk-DoubleClick-0.04/deblicense/
+cd ..
+%setup -q -T -D -n Tk-DoubleClick-0.04 -b 1
+mkdir -p deblicense/
 mv %{_topdir}/BUILD/debian/* %{_topdir}/BUILD/Tk-DoubleClick-0.04/deblicense/
 
 %build
@@ -58,9 +59,9 @@ make TEST_VERBOSE=1 test
 %install
 rm -rf %{buildroot}
 if test -f Makefile.PL; then
-make pure_install PERL_INSTALL_ROOT=%{buildroot}
+make pure_install PERL_INSTALL_ROOT=%{buildroot} INSTALLDIRS=vendor
 else
-./Build install --installdirs=site --destdir=%{buildroot}
+./Build install --installdirs=vendor --destdir=%{buildroot}
 fi
 find %{buildroot} -type f -name .packlist -exec rm -f {} ';'
 find %{buildroot} -depth -type d -exec rmdir {} 2>/dev/null ';'
@@ -69,8 +70,8 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files
 %defattr(-,root,root,-)
-/usr/lib/perl5/site_perl/5.26.1/Tk/DoubleClick.pm
+/usr/lib/perl5/vendor_perl/5.26.1/Tk/DoubleClick.pm
 
-%files man
+%files dev
 %defattr(-,root,root,-)
 /usr/share/man/man3/Tk::DoubleClick.3
