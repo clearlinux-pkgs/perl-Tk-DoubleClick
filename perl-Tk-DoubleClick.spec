@@ -4,13 +4,14 @@
 #
 Name     : perl-Tk-DoubleClick
 Version  : 0.04
-Release  : 9
+Release  : 10
 URL      : https://cpan.metacpan.org/authors/id/D/DD/DDUMONT/Tk-DoubleClick-0.04.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/D/DD/DDUMONT/Tk-DoubleClick-0.04.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/libt/libtk-doubleclick-perl/libtk-doubleclick-perl_0.04-1.debian.tar.xz
 Summary  : 'Correctly handle single-click vs double-click events,'
 Group    : Development/Tools
 License  : Artistic-1.0-Perl
+Requires: perl-Tk-DoubleClick-perl = %{version}-%{release}
 BuildRequires : buildreq-cpan
 BuildRequires : perl(Tk)
 
@@ -24,23 +25,34 @@ that should be provided before the module is installed.
 Summary: dev components for the perl-Tk-DoubleClick package.
 Group: Development
 Provides: perl-Tk-DoubleClick-devel = %{version}-%{release}
+Requires: perl-Tk-DoubleClick = %{version}-%{release}
 
 %description dev
 dev components for the perl-Tk-DoubleClick package.
 
 
+%package perl
+Summary: perl components for the perl-Tk-DoubleClick package.
+Group: Default
+Requires: perl-Tk-DoubleClick = %{version}-%{release}
+
+%description perl
+perl components for the perl-Tk-DoubleClick package.
+
+
 %prep
 %setup -q -n Tk-DoubleClick-0.04
-cd ..
-%setup -q -T -D -n Tk-DoubleClick-0.04 -b 1
+cd %{_builddir}
+tar xf %{_sourcedir}/libtk-doubleclick-perl_0.04-1.debian.tar.xz
+cd %{_builddir}/Tk-DoubleClick-0.04
 mkdir -p deblicense/
-mv %{_topdir}/BUILD/debian/* %{_topdir}/BUILD/Tk-DoubleClick-0.04/deblicense/
+cp -r %{_builddir}/debian/* %{_builddir}/Tk-DoubleClick-0.04/deblicense/
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
+export LANG=C.UTF-8
 if test -f Makefile.PL; then
 %{__perl} Makefile.PL
 make  %{?_smp_mflags}
@@ -50,7 +62,7 @@ else
 fi
 
 %check
-export LANG=C
+export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
@@ -70,8 +82,11 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files
 %defattr(-,root,root,-)
-/usr/lib/perl5/vendor_perl/5.28.2/Tk/DoubleClick.pm
 
 %files dev
 %defattr(-,root,root,-)
 /usr/share/man/man3/Tk::DoubleClick.3
+
+%files perl
+%defattr(-,root,root,-)
+/usr/lib/perl5/vendor_perl/5.30.1/Tk/DoubleClick.pm
