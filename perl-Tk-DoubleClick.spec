@@ -4,7 +4,7 @@
 #
 Name     : perl-Tk-DoubleClick
 Version  : 0.04
-Release  : 19
+Release  : 20
 URL      : https://cpan.metacpan.org/authors/id/D/DD/DDUMONT/Tk-DoubleClick-0.04.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/D/DD/DDUMONT/Tk-DoubleClick-0.04.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/libt/libtk-doubleclick-perl/libtk-doubleclick-perl_0.04-1.debian.tar.xz
@@ -89,4 +89,4 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files perl
 %defattr(-,root,root,-)
-/usr/lib/perl5/vendor_perl/5.34.0/Tk/DoubleClick.pm
+/usr/lib/perl5/*
