@@ -4,7 +4,7 @@
 #
 Name     : perl-Tk-DoubleClick
 Version  : 0.04
-Release  : 20
+Release  : 21
 URL      : https://cpan.metacpan.org/authors/id/D/DD/DDUMONT/Tk-DoubleClick-0.04.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/D/DD/DDUMONT/Tk-DoubleClick-0.04.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/libt/libtk-doubleclick-perl/libtk-doubleclick-perl_0.04-1.debian.tar.xz
